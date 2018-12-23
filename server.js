@@ -1,6 +1,8 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
+app.use(bodyParser.json());
 
 const database = {
 	users: [
@@ -27,7 +29,11 @@ app.get('/', (req, res) => {
 	res.json('this is working !')
 });
 app.get('/signin', (req, res) => {
-	res.json('Signed in !')
+	if(req.body.email === database.users[0].email && req.body.password === database.users[0].password) {
+		res.json('Signed in !')
+	} else {
+		res.status(400).json('wrong email or password')
+	}
 });
 
 app.listen(3000, () => console.log('app is running on port 3000'));
