@@ -2,6 +2,27 @@ const express = require('express');
 
 const app = express();
 
+const database = {
+	users: [
+		{
+			id: '123',
+			name: 'john',
+			email: 'john@mail.com',
+			password: 'nopassword',
+			entries: 0,
+			joined: new Date()
+		},
+		{
+			id: '321',
+			name: 'sally',
+			email: 'sally@mail.com',
+			password: 'thisissecret',
+			entries: 0,
+			joined: new Date()
+		},
+
+	]
+}
 app.get('/', (req, res) => {
 	res.json('this is working !')
 });
