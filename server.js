@@ -26,7 +26,7 @@ const database = {
 	]
 }
 app.get('/', (req, res) => {
-	res.json('this is working !')
+	res.json(database.users)
 });
 app.get('/signin', (req, res) => {
 	if(req.body.email === database.users[0].email && req.body.password === database.users[0].password) {
