@@ -35,5 +35,17 @@ app.get('/signin', (req, res) => {
 		res.status(400).json('wrong email or password')
 	}
 });
+app.get('/register', (req, res) => {
+	const { name, email, password } = req.body;
+	database.users.push({
+		id: '543',
+		name,
+		email,
+		password,
+		entries: 0,
+		joined: new Date()
+	});
+	res.json(database.users[database.users.length - 1])
+});
 
 app.listen(3000, () => console.log('app is running on port 3000'));
