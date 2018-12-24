@@ -58,5 +58,8 @@ app.get('/profile/:id', (req, res) => {
 		);
 		res.status(404).json('user not found!');
 });
+app.put('/image', (req, res) => {
+
+});
 
 app.listen(3000, () => console.log('app is running on port 3000'));
