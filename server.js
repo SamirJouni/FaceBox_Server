@@ -47,5 +47,8 @@ app.get('/register', (req, res) => {
 	});
 	res.json(database.users[database.users.length - 1])
 });
+app.get('/profile/:id', (req, res) => {
+
+});
 
 app.listen(3000, () => console.log('app is running on port 3000'));
