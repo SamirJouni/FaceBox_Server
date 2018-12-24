@@ -52,12 +52,11 @@ app.get('/profile/:id', (req, res) => {
 	database.users.forEach(
 		user => {
 			if(user.id === id) {
-				res.json(user);
-			} else {
-				res.status(404).json('user not found!')
+				return res.json(user);
 			}
 		}
-	)
+		);
+		res.status(404).json('user not found!');
 });
 
 app.listen(3000, () => console.log('app is running on port 3000'));
