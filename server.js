@@ -32,14 +32,13 @@ app.get('/', (req, res) => {
 	res.json(database.users)
 });
 app.post('/signin', (req, res) => {
-	console.log(req.body);
 	if(req.body.email === database.users[0].email && req.body.password === database.users[0].password) {
-		res.json('Signed in !')
+		res.json('signedin')
 	} else {
 		res.status(400).json('wrong email or password')
 	}
 });
-app.post('/register', (req, res) => {
+app.post('/signup', (req, res) => {
 	const { name, email, password } = req.body;
 	database.users.push({
 		id: '543',
@@ -49,7 +48,7 @@ app.post('/register', (req, res) => {
 		entries: 0,
 		joined: new Date()
 	});
-	res.json(database.users[database.users.length - 1])
+	res.json('signedin')
 });
 app.post('/profile/:id', (req, res) => {
 	const { id } = req.params;
