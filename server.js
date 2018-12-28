@@ -48,7 +48,7 @@ app.post('/signup', (req, res) => {
 		entries: 0,
 		joined: new Date()
 	});
-	res.json('signedin')
+	res.json(database.users[database.users.length - 1]);
 });
 app.post('/profile/:id', (req, res) => {
 	const { id } = req.params;
