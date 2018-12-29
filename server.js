@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt-nodejs');
 const cors = require('cors');
 const knex = require('knex');
 
-knex({
+const database = knex({
   client: 'pg',
   connection: {
     host : '127.0.0.1',
@@ -13,11 +13,13 @@ knex({
     database : "'FaceBox'"
   }
 });
+console.log(database.select('*').from('users'));
+
 const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const database = {
+const database1 = {
 	users: [
 		{
 			id: '123',
