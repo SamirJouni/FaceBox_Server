@@ -13,8 +13,6 @@ const database = knex({
     database : "'FaceBox'"
   }
 });
-database.select('*').from('users')
-.then(data=> console.log(data));
 
 const app = express();
 app.use(bodyParser.json());
@@ -53,14 +51,11 @@ app.post('/signin', (req, res) => {
 });
 app.post('/signup', (req, res) => {
 	const { name, email, password } = req.body;
-	database.users.push({
-		id: '543',
-		name,
+	database('users').insert({
 		email,
-		password,
-		entries: 0,
+		name,
 		joined: new Date()
-	});
+	}).then(console.log);
 	res.json(database.users[database.users.length - 1]);
 });
 app.post('/profile/:id', (req, res) => {
