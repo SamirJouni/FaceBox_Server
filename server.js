@@ -13,7 +13,8 @@ const database = knex({
     database : "'FaceBox'"
   }
 });
-console.log(database.select('*').from('users'));
+database.select('*').from('users')
+.then(data=> console.log(data));
 
 const app = express();
 app.use(bodyParser.json());
