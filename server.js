@@ -56,7 +56,7 @@ app.post('/signup', (req, res) => {
 		name,
 		joined: new Date()
 	}).then(ret => res.json(ret[0]))
-	.then(err => res.status(400).json(err));
+	.catch(err => res.status(400).json('Something went wrong! Make sure to use a unique username and email.'));
 });
 app.post('/profile/:id', (req, res) => {
 	const { id } = req.params;
