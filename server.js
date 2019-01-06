@@ -55,7 +55,7 @@ app.post('/signup', (req, res) => {
 		email,
 		name,
 		joined: new Date()
-	}).then(ret => res.json(ret));
+	}).then(ret => res.json(ret[0]));
 });
 app.post('/profile/:id', (req, res) => {
 	const { id } = req.params;
