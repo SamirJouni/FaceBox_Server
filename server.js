@@ -51,12 +51,11 @@ app.post('/signin', (req, res) => {
 });
 app.post('/signup', (req, res) => {
 	const { name, email, password } = req.body;
-	database('users').insert({
+	database('users').returning('*').insert({
 		email,
 		name,
 		joined: new Date()
-	}).then(console.log);
-	res.json(database.users[database.users.length - 1]);
+	}).then(ret => res.json(ret));
 });
 app.post('/profile/:id', (req, res) => {
 	const { id } = req.params;
