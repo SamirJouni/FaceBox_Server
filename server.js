@@ -90,8 +90,14 @@ app.put("/image", (req, res) => {
 		.where("id", "=", id)
 		.increment("entries", 1)
 		.returning("entries")
-		.then(entries => console.log(entries));
-	res.status(404).json("user not found!");
+		.then(entries => {
+			if (entries.length) {
+				res.json(entries[0]);
+			} else {
+				throw "";
+			}
+		})
+		.catch(err => res.status(404).json("user not found!"));
 });
 
 app.listen(3000, () => console.log("app is running on port 3000"));
