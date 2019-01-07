@@ -60,7 +60,7 @@ app.post('/signup', (req, res) => {
 });
 app.post('/profile/:id', (req, res) => {
 	const { id } = req.params;
-	database.select('*').from('users').then( user => console.log(user))
+	database.select('*').from('users').where({id}).then( user => console.log(user[0]));
 	res.status(404).json('user not found!');
 });
 app.put('/image', (req, res) => {
