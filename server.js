@@ -75,7 +75,13 @@ app.post("/profile/:id", (req, res) => {
 		.select("*")
 		.from("users")
 		.where({ id })
-		.then(user => res.json(user[0]))
+		.then(user => {
+			if (user.length) {
+				res.json(user[0]);
+			} else {
+				throw "";
+			}
+		})
 		.catch(err => res.status(404).json("user not found!"));
 });
 app.put("/image", (req, res) => {
