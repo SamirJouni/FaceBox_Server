@@ -86,12 +86,11 @@ app.post("/profile/:id", (req, res) => {
 });
 app.put("/image", (req, res) => {
 	const { id } = req.body;
-	database.users.forEach(user => {
-		if (user.id === id) {
-			user.entries++;
-			return res.json(user.entries);
-		}
-	});
+	database('users')
+		.where("id", "=", id)
+		.increment("entries", 1)
+		.returning("entries")
+		.then(entries => console.log(entries));
 	res.status(404).json("user not found!");
 });
 
