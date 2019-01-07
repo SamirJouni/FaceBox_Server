@@ -60,14 +60,8 @@ app.post('/signup', (req, res) => {
 });
 app.post('/profile/:id', (req, res) => {
 	const { id } = req.params;
-	database.users.forEach(
-		user => {
-			if(user.id === id) {
-				return res.json(user);
-			}
-		}
-		);
-		res.status(404).json('user not found!');
+	database.select('*').from('users').then( user => console.log(user))
+	res.status(404).json('user not found!');
 });
 app.put('/image', (req, res) => {
 	const { id } = req.body;
