@@ -75,8 +75,8 @@ app.post("/profile/:id", (req, res) => {
 		.select("*")
 		.from("users")
 		.where({ id })
-		.then(user => console.log(user[0]));
-	res.status(404).json("user not found!");
+		.then(user => res.json(user[0]))
+		.catch(err => res.status(404).json("user not found!"));
 });
 app.put("/image", (req, res) => {
 	const { id } = req.body;
