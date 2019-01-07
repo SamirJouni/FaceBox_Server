@@ -1,17 +1,17 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const bcrypt = require('bcrypt-nodejs');
-const cors = require('cors');
-const knex = require('knex');
+const express = require("express");
+const bodyParser = require("body-parser");
+const bcrypt = require("bcrypt-nodejs");
+const cors = require("cors");
+const knex = require("knex");
 
 const database = knex({
-  client: 'pg',
-  connection: {
-    host : '127.0.0.1',
-    user : 'postgres',
-    password : 'db',
-    database : "'FaceBox'"
-  }
+	client: "pg",
+	connection: {
+		host: "127.0.0.1",
+		user: "postgres",
+		password: "db",
+		database: "'FaceBox'"
+	}
 });
 
 const app = express();
@@ -21,59 +21,72 @@ app.use(cors());
 const database1 = {
 	users: [
 		{
-			id: '123',
-			name: 'john',
-			email: 'john@mail.com',
-			password: 'nopassword',
+			id: "123",
+			name: "john",
+			email: "john@mail.com",
+			password: "nopassword",
 			entries: 0,
 			joined: new Date()
 		},
 		{
-			id: '321',
-			name: 'sally',
-			email: 'sally@mail.com',
-			password: 'thisissecret',
+			id: "321",
+			name: "sally",
+			email: "sally@mail.com",
+			password: "thisissecret",
 			entries: 0,
 			joined: new Date()
-		},
-
+		}
 	]
-}
-app.get('/', (req, res) => {
-	res.json(database.users)
+};
+app.get("/", (req, res) => {
+	res.json(database.users);
 });
-app.post('/signin', (req, res) => {
-	if(req.body.email === database.users[0].email && req.body.password === database.users[0].password) {
+app.post("/signin", (req, res) => {
+	if (
+		req.body.email === database.users[0].email &&
+		req.body.password === database.users[0].password
+	) {
 		res.json(database.users[0]);
 	} else {
-		res.status(400).json('wrong email or password')
+		res.status(400).json("wrong email or password");
 	}
 });
-app.post('/signup', (req, res) => {
+app.post("/signup", (req, res) => {
 	const { name, email, password } = req.body;
-	database('users').returning('*').insert({
-		email,
-		name,
-		joined: new Date()
-	}).then(ret => res.json(ret[0]))
-	.catch(err => res.status(400).json('Something went wrong! Make sure to use a unique username and email.'));
-});
-app.post('/profile/:id', (req, res) => {
-	const { id } = req.params;
-	database.select('*').from('users').where({id}).then( user => console.log(user[0]));
-	res.status(404).json('user not found!');
-});
-app.put('/image', (req, res) => {
-	const { id } = req.body;
-	database.users.forEach(
-		user => {
-			if(user.id === id) {
-				user.entries++
-				return res.json(user.entries);
-			}
-		}
+	database("users")
+		.returning("*")
+		.insert({
+			email,
+			name,
+			joined: new Date()
+		})
+		.then(ret => res.json(ret[0]))
+		.catch(err =>
+			res
+				.status(400)
+				.json(
+					"Something went wrong! Make sure to use a unique username and email."
+				)
 		);
-		res.status(404).json('user not found!');
+});
+app.post("/profile/:id", (req, res) => {
+	const { id } = req.params;
+	database
+		.select("*")
+		.from("users")
+		.where({ id })
+		.then(user => console.log(user[0]));
+	res.status(404).json("user not found!");
+});
+app.put("/image", (req, res) => {
+	const { id } = req.body;
+	database.users.forEach(user => {
+		if (user.id === id) {
+			user.entries++;
+			return res.json(user.entries);
+		}
+	});
+	res.status(404).json("user not found!");
 });
 
-app.listen(3000, () => console.log('app is running on port 3000'));
+app.listen(3000, () => console.log("app is running on port 3000"));
