@@ -53,21 +53,36 @@ app.post("/signin", (req, res) => {
 });
 app.post("/signup", (req, res) => {
 	const { name, email, password } = req.body;
-	database("users")
-		.returning("*")
-		.insert({
-			email,
-			name,
-			joined: new Date()
-		})
-		.then(ret => res.json(ret[0]))
-		.catch(err =>
-			res
-				.status(400)
-				.json(
-					"Something went wrong! Make sure to use a unique username and email."
-				)
-		);
+	const hash = bcrypt.hashSync(password);
+	database.transaction(trx =>
+		trx
+			.insert({
+				hash,
+				email
+			})
+			.into("login")
+			.returning("email")
+			.then(signinEmail => {
+				trx
+					.into("users")
+					.returning("*")
+					.insert({
+						email: signinEmail[0],
+						name,
+						joined: new Date()
+					})
+					.then(ret => res.json(ret[0]))
+					.catch(err =>
+						res
+							.status(400)
+							.json(
+								"Something went wrong! Make sure to use a unique username and email."
+							)
+					);
+			})
+			.then(trx.commit)
+			.catch(trx.rollback)
+	);
 });
 app.post("/profile/:id", (req, res) => {
 	const { id } = req.params;
@@ -86,7 +101,7 @@ app.post("/profile/:id", (req, res) => {
 });
 app.put("/image", (req, res) => {
 	const { id } = req.body;
-	database('users')
+	database("users")
 		.where("id", "=", id)
 		.increment("entries", 1)
 		.returning("entries")
