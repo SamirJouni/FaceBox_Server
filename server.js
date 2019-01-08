@@ -42,14 +42,7 @@ app.get("/", (req, res) => {
 	res.json(database.users);
 });
 app.post("/signin", (req, res) => {
-	if (
-		req.body.email === database.users[0].email &&
-		req.body.password === database.users[0].password
-	) {
-		res.json(database.users[0]);
-	} else {
-		res.status(400).json("wrong email or password");
-	}
+	database.select('email', 'hash').from('login').where('email', '=', req.body.email).then(data => console.log(data))
 });
 app.post("/signup", (req, res) => {
 	const { name, email, password } = req.body;
