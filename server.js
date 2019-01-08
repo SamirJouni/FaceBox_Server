@@ -58,7 +58,8 @@ app.post("/signin", (req, res) => {
 						.catch(err => res.status(400).json("Wrong email or password."))
 				);
 			}
-		});
+		})
+		.catch(err => res.status(400).json("Wrong email or password."));
 });
 app.post("/signup", (req, res) => {
 	const { name, email, password } = req.body;
