@@ -18,26 +18,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-const database1 = {
-	users: [
-		{
-			id: "123",
-			name: "john",
-			email: "john@mail.com",
-			password: "nopassword",
-			entries: 0,
-			joined: new Date()
-		},
-		{
-			id: "321",
-			name: "sally",
-			email: "sally@mail.com",
-			password: "thisissecret",
-			entries: 0,
-			joined: new Date()
-		}
-	]
-};
 app.get("/", (req, res) => {
 	res.json(database.users);
 });
