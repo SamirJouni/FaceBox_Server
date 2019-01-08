@@ -42,37 +42,54 @@ app.get("/", (req, res) => {
 	res.json(database.users);
 });
 app.post("/signin", (req, res) => {
-	database.select('email', 'hash').from('login').where('email', '=', req.body.email).then(data => {const isValid = bcrypt.compareSync(req.body.password, data.hash);
-	if(isValid){
-		res.json(database.select('*').from('users').where('email', '=', req.body.email).then(data => res.json(data[0])).catch(err => res.status(400).json('Wrong email or password.')))
-	}})
+	database
+		.select("email", "hash")
+		.from("login")
+		.where("email", "=", req.body.email)
+		.then(data => {
+			const isValid = bcrypt.compareSync(req.body.password, data.hash);
+			if (isValid) {
+				res.json(
+					database
+						.select("*")
+						.from("users")
+						.where("email", "=", req.body.email)
+						.then(data => res.json(data[0]))
+						.catch(err => res.status(400).json("Wrong email or password."))
+				);
+			}
+		});
 });
 app.post("/signup", (req, res) => {
 	const { name, email, password } = req.body;
 	const hash = bcrypt.hashSync(password);
-	database.transaction(trx => {
-		trx
-			.insert({
-				hash: hash,
-				email: email
-			})
-			.into("login")
-			.returning("email")
-			.then(signupEmail => {
-				return trx("users")
-					.returning("*")
-					.insert({
-						email: signupEmail[0],
-						name: name,
-						joined: new Date()
-					})
-					.then(user => {
-						res.json(user[0]);
-					});
-			})
-			.then(trx.commit)
-			.catch(trx.rollback);
-	}).catch(err => res.status(400).json("Something went wrong! Please try again."));
+	database
+		.transaction(trx => {
+			trx
+				.insert({
+					hash: hash,
+					email: email
+				})
+				.into("login")
+				.returning("email")
+				.then(signupEmail => {
+					return trx("users")
+						.returning("*")
+						.insert({
+							email: signupEmail[0],
+							name: name,
+							joined: new Date()
+						})
+						.then(user => {
+							res.json(user[0]);
+						});
+				})
+				.then(trx.commit)
+				.catch(trx.rollback);
+		})
+		.catch(err =>
+			res.status(400).json("Something went wrong! Please try again.")
+		);
 });
 app.post("/profile/:id", (req, res) => {
 	const { id } = req.params;
