@@ -55,6 +55,8 @@ app.post("/signin", (req, res) => {
 					.where("email", "=", req.body.email)
 					.then(data => res.json(data[0]))
 					.catch(err => res.status(400).json("Wrong email or password."));
+			} else {
+				res.status(400).json("Wrong email or password.");
 			}
 		})
 		.catch(err => res.status(400).json("Wrong email or password."));
