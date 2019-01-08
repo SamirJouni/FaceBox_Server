@@ -47,16 +47,14 @@ app.post("/signin", (req, res) => {
 		.from("login")
 		.where("email", "=", req.body.email)
 		.then(data => {
-			const isValid = bcrypt.compareSync(req.body.password, data.hash);
+			const isValid = bcrypt.compareSync(req.body.password, data[0].hash);
 			if (isValid) {
-				res.json(
-					database
-						.select("*")
-						.from("users")
-						.where("email", "=", req.body.email)
-						.then(data => res.json(data[0]))
-						.catch(err => res.status(400).json("Wrong email or password."))
-				);
+				return database
+					.select("*")
+					.from("users")
+					.where("email", "=", req.body.email)
+					.then(data => res.json(data[0]))
+					.catch(err => res.status(400).json("Wrong email or password."));
 			}
 		})
 		.catch(err => res.status(400).json("Wrong email or password."));
