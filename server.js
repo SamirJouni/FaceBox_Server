@@ -42,7 +42,10 @@ app.get("/", (req, res) => {
 	res.json(database.users);
 });
 app.post("/signin", (req, res) => {
-	database.select('email', 'hash').from('login').where('email', '=', req.body.email).then(data => console.log(data))
+	database.select('email', 'hash').from('login').where('email', '=', req.body.email).then(data => {const isValid = bcrypt.compareSync(req.body.password, data.hash);
+	if(isValid){
+		res.json(database.select('*').from('users').where('email', '=', req.body.email).then(data => res.json(data[0])).catch(err => res.status(400).json('Wrong email or password.')))
+	}})
 });
 app.post("/signup", (req, res) => {
 	const { name, email, password } = req.body;
