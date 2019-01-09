@@ -5,6 +5,7 @@ const cors = require("cors");
 const knex = require("knex");
 
 const signup = require('./controllers/signup');
+const signin = require('./controllers/signin');
 
 const database = knex({
 	client: "pg",
@@ -23,26 +24,7 @@ app.use(cors());
 app.get("/", (req, res) => {
 	res.json(database.users);
 });
-app.post("/signin", (req, res) => {
-	database
-		.select("email", "hash")
-		.from("login")
-		.where("email", "=", req.body.email)
-		.then(data => {
-			const isValid = bcrypt.compareSync(req.body.password, data[0].hash);
-			if (isValid) {
-				return database
-					.select("*")
-					.from("users")
-					.where("email", "=", req.body.email)
-					.then(data => res.json(data[0]))
-					.catch(err => res.status(400).json("Wrong email or password."));
-			} else {
-				res.status(400).json("Wrong email or password.");
-			}
-		})
-		.catch(err => res.status(400).json("Wrong email or password."));
-});
+app.post("/signin", (req, res) => signin.handleSignin(req, res, bcrypt));
 app.post("/signup", (req, res) => signup.handleSignup(req, res, database, bcrypt));
 app.post("/profile/:id", (req, res) => {
 	const { id } = req.params;
