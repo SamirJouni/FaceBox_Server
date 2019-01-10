@@ -1,4 +1,4 @@
-const profile = (req, res, database) => {
+const handleProfile = (req, res, database) => {
 	const { id } = req.params;
 	database
 		.select("*")
@@ -12,4 +12,8 @@ const profile = (req, res, database) => {
 			}
 		})
 		.catch(err => res.status(404).json("user not found!"));
+}
+
+module.exports = {
+	handleProfile: handleProfile
 }
