@@ -24,7 +24,7 @@ app.use(cors());
 app.get("/", (req, res) => {
 	res.json(database.users);
 });
-app.post("/signin", (req, res) => signin.handleSignin(req, res, bcrypt));
+app.post("/signin", (req, res) => signin.handleSignin(req, res, database, bcrypt));
 app.post("/signup", (req, res) => signup.handleSignup(req, res, database, bcrypt));
 app.post("/profile/:id", (req, res) => {
 	const { id } = req.params;
