@@ -1,4 +1,4 @@
-const handleSignup = (req, res, database, bcrypt) => {
+const handleSignup = (database, bcrypt) => (req, res) => {
 	const { name, email, password } = req.body;
 	const hash = bcrypt.hashSync(password);
 	database
