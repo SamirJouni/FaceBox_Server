@@ -7,6 +7,7 @@ const knex = require("knex");
 const signup = require('./controllers/signup');
 const signin = require('./controllers/signin');
 const profile = require('./controllers/profile');
+const image = require('./controllers/image');
 
 const database = knex({
 	client: "pg",
@@ -28,20 +29,6 @@ app.get("/", (req, res) => {
 app.post("/signin", (req, res) => signin.handleSignin(req, res, database, bcrypt));
 app.post("/signup", (req, res) => signup.handleSignup(req, res, database, bcrypt));
 app.post("/profile/:id", (req, res) => profile.handleProfile(req, res, database));
-app.put("/image", (req, res) => {
-	const { id } = req.body;
-	database("users")
-		.where("id", "=", id)
-		.increment("entries", 1)
-		.returning("entries")
-		.then(entries => {
-			if (entries.length) {
-				res.json(entries[0]);
-			} else {
-				throw "";
-			}
-		})
-		.catch(err => res.status(404).json("user not found!"));
-});
+app.put("/image", (req, res) => image.handleImage(req, res, database));
 
 app.listen(3000, () => console.log("app is running on port 3000"));
