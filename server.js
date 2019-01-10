@@ -30,10 +30,10 @@ app.use(cors());
 app.get("/", (req, res) => {
 	res.json(database.users);
 });
-app.post("/signin", (req, res) => signin.handleSignin(req, res, database, bcrypt));
-app.post("/signup", (req, res) => signup.handleSignup(req, res, database, bcrypt));
-app.post("/profile/:id", (req, res) => profile.handleProfile(req, res, database));
-app.put("/image", (req, res) => image.handleImage(req, res, database));
+app.post("/signin", signin.handleSignin(database, bcrypt));
+app.post("/signup", signup.handleSignup(database, bcrypt));
+app.post("/profile/:id", profile.handleProfile(database));
+app.put("/image", image.handleImage(database));
 
 /* Port */
 app.listen(3000, () => console.log("app is running on port 3000"));
