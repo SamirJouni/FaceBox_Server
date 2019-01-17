@@ -1,4 +1,8 @@
 const handleSignin = (database, bcrypt) => (req, res) => {
+	const {
+		email,
+		password
+	} = req.body;
 	if (email || password) {
 		database
 			.select("email", "hash")
