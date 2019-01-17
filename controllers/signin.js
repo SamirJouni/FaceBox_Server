@@ -1,5 +1,5 @@
 const handleSignin = (database, bcrypt) => (req, res) => {
-	if (name || email || password) {
+	if (email || password) {
 		database
 			.select("email", "hash")
 			.from("login")
