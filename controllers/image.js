@@ -8,7 +8,7 @@ const handleAPICall = (req, res) => {
 	app.models
 		.predict(Clarifai.FACE_DETECT_MODEL, req.body.linkToImage)
 		.then(data => res.json(data))
-		.catch(res.status(400).json('Failed to connect to API'))
+		.catch(err => res.status(400).json('Failed to connect to API'))
 }
 const handleImage = (database) => (req, res) => {
 	const {
