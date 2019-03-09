@@ -14,10 +14,8 @@ const image = require("./controllers/image");
 const database = knex({
 	client: "pg",
 	connection: {
-		host: "127.0.0.1",
-		user: "postgres",
-		password: "db",
-		database: "'FaceBox'"
+		host: process.env.DATABASE_URL,
+		ssl: true
 	}
 });
 
