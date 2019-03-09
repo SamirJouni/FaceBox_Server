@@ -28,7 +28,7 @@ app.use(cors());
 
 /* Endpoints */
 app.get("/", (req, res) => {
-	res.json(database.users);
+	res.json('it works');
 });
 app.post("/signin", signin.handleSignin(database, bcrypt));
 app.post("/signup", signup.handleSignup(database, bcrypt));
