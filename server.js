@@ -5,10 +5,10 @@ const cors = require("cors");
 const knex = require("knex");
 
 /* Controllers */
-const signup = require('./controllers/signup');
-const signin = require('./controllers/signin');
-const profile = require('./controllers/profile');
-const image = require('./controllers/image');
+const signup = require("./controllers/signup");
+const signin = require("./controllers/signin");
+const profile = require("./controllers/profile");
+const image = require("./controllers/image");
 
 /* Database */
 const database = knex({
@@ -37,4 +37,6 @@ app.put("/image", image.handleImage(database));
 app.post("/imageurl", image.handleAPICall);
 
 /* Port */
-app.listen(3000, () => console.log("app is running on port 3000"));
+app.listen(process.env.PORT || 3000, () =>
+	console.log(`app is running on port ${process.env.PORT}`)
+);
