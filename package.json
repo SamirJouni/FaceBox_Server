@@ -11,7 +11,7 @@
     "express": "^4.16.4",
     "knex": "^0.16.3",
     "pg": "^7.9.0",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.11"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
